@@ -1,0 +1,36 @@
+name: 'GitHub Actions Weather Bot'
+
+on:
+  push:
+  schedule:
+    - cron: '0 12 * * *'
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout codes'
+        # 拉取代码，引用官方写的action
+        uses: actions/checkout@v1
+      - name: 'Get Weather'
+        # 执行脚本命令
+        run: bash ./weather.sh
+      - name: 'Get Date'
+        # 设置当前时间变量REPORT_DATE
+        run: echo "::set-env name=REPORT_DATE::$(TZ=':Asia/Shanghai' date '+%Y-%m-%d %T')"
+      - name: 'Send mail'
+        # 发送邮件，引用别人写的action
+        uses: dawidd6/action-send-mail@master
+        with:
+          server_address: smtp.163.com
+          server_port: 465
+          # 在仓库配置settings/secrets中添加用户密码，加密引用
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          # 标题中取当前时间变量REPORT_DATE
+          subject: Shanghai Weather Report (${{env.REPORT_DATE}})
+          # 脚本命令生成的文件
+          body: file://result.html
+          to: yh375901@sohu.com
+          from: GitHub Actions
+          content_type: text/html
