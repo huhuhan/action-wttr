@@ -22,8 +22,8 @@ jobs:
         # 发送邮件，引用别人写的action
         uses: dawidd6/action-send-mail@master
         with:
-          server_address: smtp.163.com
-          server_port: 465
+          server_address: smtp.sohu.com
+          server_port: 25
           # 在仓库配置settings/secrets中添加用户密码，加密引用
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
@@ -31,6 +31,6 @@ jobs:
           subject: Shanghai Weather Report (${{env.REPORT_DATE}})
           # 脚本命令生成的文件
           body: file://result.html
-          to: yh375901@sohu.com
+          to: yhgogo816@gmail.com
           from: GitHub Actions
           content_type: text/html
