@@ -1,9 +1,11 @@
+# workflow的名称，默认文件名
 name: 'GitHub Actions Weather Bot'
 
+# 触发条件，条件：推送、定时
 on:
   push:
-  schedule:
-    - cron: '0 12 * * *'
+  # schedule:
+    # - cron: '0 12 * * *'
 
 jobs:
   bot:
@@ -21,6 +23,7 @@ jobs:
       - name: 'Send mail'
         # 发送邮件，引用别人写的action
         uses: dawidd6/action-send-mail@master
+        # 插件定义的关键词，注入属性
         with:
           server_address: smtp.163.com
           server_port: 465
